@@ -1,0 +1,45 @@
+<html>
+<head>
+<title>Dog or cat</title>
+</head>
+
+<body>
+    <h1>Reload to sumbit again</h1>
+</body>
+<script>
+  var cat = 0;
+  var dog = 0;
+
+    var dog_or_cat = prompt(" which do you pick Dog or cat? respond in no caps")
+    fetch('/api', {
+    method:'POST',
+    headers: {
+      'Content-Type': 'application/json'
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body:JSON.stringify({ dog_or_cat})
+
+    })
+    async function getData() {
+    var data = await fetch('/api')
+    var json = await data.json()
+    console.log(json)
+    for (let i = 0; i < json.length; i++) {
+    if (json[i].dog_or_cat == "cat") {
+    cat +=1
+    } else if(json[i].dog_or_cat == "dog") {
+    dog +=1
+    }
+    
+    }
+   var root = document.createElement('div')
+   var dog_amount = document.createElement('div')
+   dog_amount.textContent = "dog lovers: " + dog
+   var cat_amount = document.createElement('div')
+   cat_amount = "cat lovers: " + cat
+   root.append(cat_amount, dog_amount)
+   document.body.append(root)
+    }
+    getData()
+</script>
+</html>
